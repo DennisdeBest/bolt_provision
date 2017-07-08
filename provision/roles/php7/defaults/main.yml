@@ -11,6 +11,7 @@ php_7_packages:
     - php7.0-xml
     - php7.0-xsl
     - php7.0-zip
+    - php7.0-mbstring
     - libapache2-mod-php7.0
 
 php_dev: no
