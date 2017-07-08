@@ -1,0 +1,16 @@
+nginx_secret_token: 'off'
+nginx_headers:
+    - 'X-Frame-Options SAMEORIGIN'
+nginx_log_dir: "/var/log/nginx/"
+nginx_access_log: "access.log"
+nginx_error_log: "error.log"
+nginx_separe_log: True
+
+nginx_sites:
+    - name: example
+      domain: example.dev
+      listen: 80
+      root: /var/www/example
+      index_patern: '^/app\.php(/|$)'
+      fpm: 5
+

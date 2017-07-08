@@ -1,0 +1,35 @@
+---
+# tasks file for mailcatcher
+- name: Add the OS specific varibles
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Install the mailcatcher prerequisites (APT)
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items: mailcatcher_packages
+  when: ansible_os_family == "Debian"
+  tags: [mailcatcher, packages]
+  become: yes
+
+- name: Install the mailcatcher (GEM)
+  # gem module is flaky, this is consistent
+  command: gem install mailcatcher
+  tags: [mailcatcher, packages]
+  become: yes
+
+- name: Setup the upstart script
+  template: src=mailcatcher.j2
+            dest={{ upstart_init_path }}/mailcatcher.conf
+            backup=yes
+            owner=root
+            group=root
+            mode=0644
+  when: ansible_os_family == "Debian"
+  notify:
+   - restart mailcatcher
+  tags: [mailcatcher, upstart]
+  become: yes
+
+- name: Change php.ini
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp="^[#|;]?sendmail_path = " line="sendmail_path = /usr/bin/env catchmail"
+  notify: restart apache
+  become: yes

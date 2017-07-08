@@ -1,0 +1,19 @@
+---
+
+- name: Set MySQL root password before installing
+  become: yes
+  debconf: name="mysql-server" question='mysql-server/root_password' value='{{mysql_root_password | quote}}' vtype='password'
+
+- name: Confirm MySQL root password before installing
+  become: yes
+  debconf: name="mysql-server" question="mysql-server/root_password_again" value='{{mysql_root_password | quote}}' vtype='password'
+
+- name: Install MySQL
+  apt: name={{ item }} state=latest update_cache=yes state=present force=yes
+  become: yes
+  with_items:
+    - mysql-server
+    - mysql-client
+
+
+...

@@ -1,0 +1,38 @@
+php_7_packages:
+    - php7.0
+    - php7.0-common
+    - php7.0-cli
+    - php7.0-intl
+    - php7.0-curl
+    - php7.0-fpm
+    - php7.0-gd
+    - php7.0-mysql
+    - php7.0-mcrypt
+    - php7.0-xml
+    - php7.0-xsl
+    - php7.0-zip
+    - libapache2-mod-php7.0
+
+php_dev: no
+php_7_packages_dev:
+    - php7.0-xdebug
+
+composer_path: /usr/local/bin/composer
+composer_keep_updated: false
+composer_version: ''
+
+# The directory where global packages will be installed.
+composer_home_path: '~/.composer'
+composer_home_owner: root
+composer_home_group: root
+
+# A list of packages to install globally. See commented examples below for
+# usage; the 'release' is optional, and defaults to '@stable'.
+composer_global_packages: []
+  # - { name: phpunit/phpunit, release: "4.7.x" }
+  # - { name: phpunit/phpunit, release: "@stable" }
+
+composer_add_to_path: true
+
+# GitHub OAuth token (used to help overcome API rate limits).
+composer_github_oauth_token: ''

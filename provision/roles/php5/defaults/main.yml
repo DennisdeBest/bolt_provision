@@ -1,0 +1,15 @@
+php_5_packages:
+    - php5
+    - php5-common
+    - php5-cli
+    - php5-intl
+    - php5-curl
+    - php5-fpm
+    - php5-gd
+    - php5-mysql
+    - php5-mcrypt    
+    - php5-xsl
+
+php_dev: no
+php_5_packages_dev:
+    - php5-xdebug

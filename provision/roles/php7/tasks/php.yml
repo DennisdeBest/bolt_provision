@@ -1,0 +1,38 @@
+- name: Add dotDeb repository
+  become: yes
+  apt_repository: repo={{ item }} state=present
+  with_items:
+    - deb http://packages.dotdeb.org jessie all
+    - deb-src http://packages.dotdeb.org jessie all
+
+- name: Add dotdeb repository key
+  become: yes
+  apt_key: url="https://www.dotdeb.org/dotdeb.gpg"
+
+- name: Install php7
+  apt: name="{{ item }}" state="latest" update_cache=yes
+  become: yes
+  tags: php
+  with_items: "{{ php_7_packages }}"
+
+- name: Install php7 dev
+  apt: name="{{ item }}" state="latest" update_cache=yes
+  become: yes
+  tags: php
+  with_items: "{{ php_7_packages_dev }}"
+  when: php_dev
+
+- name: Conf php7 xdebug 1
+  become: yes
+  lineinfile: dest=/etc/php/7.0/fpm/conf.d/20-xdebug.ini line="xdebug.remote_enable=true"
+  when: php_dev
+
+- name: Conf php7 xdebug 2
+  become: yes
+  lineinfile: dest=/etc/php/7.0/fpm/conf.d/20-xdebug.ini line="xdebug.remote_port=9000"
+  when: php_dev
+  
+- name: Conf php7 xdebug 3
+  become: yes
+  lineinfile: dest=/etc/php/7.0/fpm/conf.d/20-xdebug.ini line="xdebug.remote_host=10.0.0.1"
+  when: php_dev

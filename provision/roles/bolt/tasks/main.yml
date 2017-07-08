@@ -1,0 +1,15 @@
+---
+
+- name: Download and extract Bolt
+  unarchive:
+    src: https://bolt.cm/distribution/bolt-latest.tar.gz
+    extra_opts: '--strip-components 1'
+    dest: /var/www/bolt.local
+    remote_src: True
+   
+- name: setup bolt
+  shell: php app/nut setup:sync
+  args: 
+    chdir: /var/www/bolt.local/
+
+...

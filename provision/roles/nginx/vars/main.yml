@@ -1,0 +1,3 @@
+nginx_secret_token: 'off'
+nginx_headers:
+    - X-Frame-Options SAMEORIGIN

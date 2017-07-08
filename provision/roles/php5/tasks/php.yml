@@ -1,0 +1,56 @@
+
+
+- name: Add dotDeb repository
+  apt_repository: repo={{ item }} state=present
+  become: yes
+  with_items:
+    - deb http://packages.dotdeb.org jessie all
+    - deb-src http://packages.dotdeb.org jessie all
+
+- name: Add dotdeb repository key
+  become: yes
+  apt_key: url="https://www.dotdeb.org/dotdeb.gpg"
+
+- name: Update apt update
+  become: yes
+  apt: update_cache=yes
+
+- name: Install php5
+  apt: name="{{ item }}" state="latest" update_cache=yes
+  become: yes
+  tags: php
+  with_items: "{{ php_5_packages }}"
+
+- name: Install php5 dev
+  apt: name="{{ item }}" state="latest" update_cache=yes
+  become: yes
+  tags: php
+  with_items: "{{ php_5_packages_dev }}"
+  when: php_dev
+
+- name: Conf php5 xdebug 1
+  become: yes
+  lineinfile: dest=/etc/php5/mods-available/xdebug.ini line="xdebug.remote_enable=true"
+  when: php_dev
+
+- name: Conf php5 xdebug 2
+  become: yes
+  lineinfile: dest=/etc/php5/mods-available/xdebug.ini line="xdebug.remote_port=9000"
+  when: php_dev
+  
+- name: Conf php5 xdebug 3
+  become: yes
+  lineinfile: dest=/etc/php5/mods-available/xdebug.ini line="xdebug.remote_host=10.0.0.1"
+  when: php_dev
+
+- name: Conf php5 xdebug 4
+  become: yes
+  lineinfile: dest=/etc/php5/mods-available/xdebug.ini line="xdebug.idekey="PHPSTORM""
+  when: php_dev
+
+- name: Conf php5 xdebug 5
+  become: yes
+  lineinfile: dest=/etc/php5/mods-available/xdebug.ini line="xdebug.max_nesting_level=250"
+  when: php_dev
+
+

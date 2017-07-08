@@ -1,0 +1,4 @@
+apache_listen_port: 80
+apache_vhosts:
+  - {servername: "mab.local", documentroot: "/var/www/local.mab"}
+apache_remove_default_vhost: true

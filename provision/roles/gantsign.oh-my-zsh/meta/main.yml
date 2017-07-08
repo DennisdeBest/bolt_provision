@@ -1,0 +1,17 @@
+galaxy_info:
+  author: John Freeman
+  description: Role for installing and configuring oh-my-zsh.
+  company: GantSign Ltd.
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - wily
+        - xenial
+  galaxy_tags:
+    - ohmyzsh
+    - zsh
+    - shell
+dependencies: []

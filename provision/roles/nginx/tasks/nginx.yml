@@ -1,0 +1,9 @@
+---
+
+- name: Install nginx
+  apt: name={{ item }} state=latest update_cache=yes state=present force=yes
+  become: yes
+  with_items:
+    - nginx
+
+...

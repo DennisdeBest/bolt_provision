@@ -1,0 +1,15 @@
+---
+- name: modify php.ini apache memory_limit
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp='^memory_limit = ' line='memory_limit = 512M'
+
+
+- name: modify php.ini apache date.timezone
+  lineinfile: dest=/etc/php5/apache2/php.ini regexp='^(.*)date.timezone = ' line='date.timezone = Etc/UTC'
+  notify:
+    - restart apache
+
+- name: modify php.ini cli memory_limit
+  lineinfile: dest=/etc/php5/cli/php.ini regexp='^memory_limit = ' line='memory_limit = 768M'
+
+- name: modify php.ini cli date.timezone
+  lineinfile: dest=/etc/php5/cli/php.ini regexp='^(.*)date.timezone = ' line='date.timezone = Etc/UTC'
