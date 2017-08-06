@@ -1,4 +1,17 @@
 ---
+- name: install python-mysqldb
+  become: yes
+  apt:
+    name: python-mysqldb
+    update_cache: yes
+
+- name: Create a new database
+  ignore_errors: yes
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_user: "{{ db_user }}"
+    login_password: "{{ db_password }}"
 
 - name: Download and extract Bolt
   unarchive:
@@ -6,11 +19,20 @@
     extra_opts: '--strip-components=1'
     dest: /var/www/bolt.local
     remote_src: True
-   
+
+- name: Create settings from template
+  template:
+    src: "config.yml.j2"
+    dest: "{{ bolt_root }}app/config/config.yml"
+
+- name: Set user to folder
+  become: true
+  shell: chown -R www-data:www-data {{ bolt_root }}
+
 - name: setup bolt
   shell: php app/nut setup:sync
   become: true
-  args: 
-    chdir: /var/www/bolt.local/
+  args:
+    chdir: "{{ bolt_root }}"
 
 ...
