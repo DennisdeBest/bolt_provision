@@ -18,7 +18,7 @@
     "name": "bolt/extensions",
     "prefer-stable": true,
     "provide": {
-        "bolt/bolt": "3.3.1"
+        "bolt/bolt": "3.3.3"
     },
     "repositories": {
         "packagist": false,
