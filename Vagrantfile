@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 	config.vm.hostname = "bolt.local"
 	config.hostsupdater.aliases = ["www.bolt.local"]
 
-	config.vm.synced_folder "project/", "/var/www/bolt.local", type: "nfs"
+	config.vm.synced_folder "project/", "/var/www/bolt.local", id: "v-root", mount_options: ["rw", "tcp", "nolock", "noacl", "async"], type: "nfs", nfs_udp: false
 	config.vm.provider "virtualbox" do |vb|
     	# Display the VirtualBox GUI when booting the machine
     	vb.gui = false
