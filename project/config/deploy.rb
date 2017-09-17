@@ -23,7 +23,7 @@ fetch(:default_env).merge!(PATH: '$PATH:/opt/php-7.0.1/bin/php')
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('project/app/config/config.yml')
+#set :linked_files, fetch(:linked_files, []).push('project/app/config/config.yml')
 #set :linked_files, %w(app/config/parameters.yml project/app/config/parameters.yml)
 # Default value for linked_dirs is []
 #set :linked_dirs, fetch(:linked_dirs, []).push('var')
@@ -35,7 +35,7 @@ set :webserver_user, "www-data"
 
 # Dirs that need to be writable by the HTTP Server (i.e. cache, log dirs)
 #set :file_permissions_users, ['www-data']
-set :file_permissions_paths,  ["project/public", "project/public/"]
+set :file_permissions_paths,  ["project/public", "project/app/config/extensions", "project/app/cache", "project/theme"]
 set :file_permissions_users, ["www-data"]
 
 # Default value for default_env is {}
@@ -48,9 +48,16 @@ SSHKit.config.command_map[:composer] = "/opt/php-7.0.1/bin/php /usr/local/bin/co
 SSHKit.config.command_map[:php] = "/opt/php-7.0.1/bin/php"
 
 after 'deploy:starting', 'composer:install_executable'
-before 'deploy:updated', 'deploy:set_permissions:chown'
+after 'deploy:cleanup', 'deploy:set_permissions:chown'
 
 namespace :deploy do
+
+  before 'deploy:set_permissions:check', 'create_cache_folder' do
+    on roles(:web) do
+      execute "mkdir #{release_path}/project/app/cache"
+      execute "cp  #{shared_path}/project/app/config/config.yml #{release_path}/project/app/config/config.yml"
+    end
+  end
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
