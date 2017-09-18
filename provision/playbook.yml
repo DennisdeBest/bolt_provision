@@ -16,7 +16,7 @@
       apache_vhosts:
         # Additional optional properties: 'serveradmin, serveralias, extra_parameters'.
         - servername: "bolt.local"
-          documentroot: "/var/www/bolt.local/web"
+          documentroot: "/var/www/bolt.local/public"
     - common
     - bolt
 ...

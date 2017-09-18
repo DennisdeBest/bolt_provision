@@ -1,0 +1,9 @@
+---
+db_name: bolt
+db_user: root
+db_password: toor
+db_host: 127.0.0.1
+db_port: 3306
+site_name: Bolt Test Site
+bolt_root: /var/www/bolt.local/
+
