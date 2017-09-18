@@ -35,7 +35,7 @@ set :webserver_user, "www-data"
 
 # Dirs that need to be writable by the HTTP Server (i.e. cache, log dirs)
 #set :file_permissions_users, ['www-data']
-set :file_permissions_paths,  ["project/public", "project/app/config/extensions", "project/app/cache", "project/theme"]
+set :file_permissions_paths,  ["project/public", "project/app/config/extensions", "project/app/cache", "project/extensions"]
 set :file_permissions_users, ["www-data"]
 
 # Default value for default_env is {}
@@ -55,6 +55,7 @@ namespace :deploy do
   before 'deploy:set_permissions:check', 'create_cache_folder' do
     on roles(:web) do
       execute "mkdir #{release_path}/project/app/cache"
+      #execute "mkdir #{release_path}/project/extensions"
       execute "cp  #{shared_path}/project/app/config/config.yml #{release_path}/project/app/config/config.yml"
     end
   end
